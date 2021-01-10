@@ -1,0 +1,47 @@
+log_dir: /mnt/store/userdata/aprysiazhnyk/face_seg/logs
+
+train:
+  path: /mnt/store/userdata/aprysiazhnyk/face_seg/data/train
+  transform:
+    size: 224
+    augmentation_scope: weak
+    images_normalization: default
+    images_output_format_type: float
+    masks_normalization: binary
+    masks_output_format_type: long
+    size_transform: crop_or_resize
+
+val:
+  path: /mnt/store/userdata/aprysiazhnyk/face_seg/data/val
+  transform:
+    size: 224
+    augmentation_scope: none
+    images_normalization: default
+    images_output_format_type: float
+    masks_normalization: binary
+    masks_output_format_type: long
+    size_transform: resize
+
+model:
+  arch: deeplab_v3
+  encoder: resnet18
+  encoder_weights: imagenet
+
+loss:
+  name: bce
+
+batch_size: 16
+num_epochs: 200
+
+optimizer:
+  name: adam
+  lr: [0.0001, 0.0005]
+
+scheduler:
+  name: step
+  # factor: 0.5
+  # patience: 2
+  step_size: 100
+  gamma: 0.8
+
+metrics: [iou]
